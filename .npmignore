@@ -4,6 +4,7 @@ test/
 src/
 public/
 scripts/
+resources/
 
 *.ts
 !*.d.ts
