@@ -1,0 +1,15 @@
+.idea
+node_modules
+test/
+src/
+public/
+scripts/
+resources/
+
+*.ts
+!*.d.ts
+docgen.ts
+docgen.js
+tsconfig.json
+package-lock.json
+typedoc.json

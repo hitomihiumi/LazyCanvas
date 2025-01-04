@@ -1,0 +1,44 @@
+{
+  "name": "@nnmty/lazycanvas",
+  "version": "0.1.0",
+  "description": "A simple way to interact with @napi-rs/canvas in an advanced way!",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc ./test/test.ts && node ./test/test.js",
+    "build": "tsc",
+    "logo": "tsc ./test/logo.ts && node ./test/logo.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NMMTY/LazyCanvas.git"
+  },
+  "keywords": [
+    "canvas",
+    "@napi-rs/canvas",
+    "node-canvas",
+    "easy",
+    "simple"
+  ],
+  "author": "NMMTY",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NMMTY/LazyCanvas/issues"
+  },
+  "homepage": "https://github.com/NMMTY/LazyCanvas#readme",
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.65",
+    "jimp": "0.22.12",
+    "path": "^0.12.7",
+    "svgson": "^5.3.1"
+  },
+  "devDependencies": {
+    "@hitomihiumi/micro-docgen": "^0.2.1",
+    "@types/jimp": "^0.2.28",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.0.2",
+    "ava": "^6.2.0",
+    "globals": "^15.14.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.4.5"
+  }
+}
