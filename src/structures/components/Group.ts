@@ -1,15 +1,16 @@
-import { IGroup } from "../../types/components/Group";
-import {AnyLayer, LayerType} from "../../types/types";
-import {generateID} from "../../utils/utils";
+import { IGroup, AnyLayer, LayerType } from "../../types";
+import { generateID } from "../../utils/utils";
 
 export class Group implements IGroup {
     id: string;
     visible: boolean;
+    zIndex: number;
     components: Array<any>;
 
     constructor() {
         this.id = generateID(LayerType.Group);
         this.visible = true;
+        this.zIndex = 1;
         this.components = [];
     }
 
@@ -32,11 +33,23 @@ export class Group implements IGroup {
     }
 
     /**
+     * Set the zIndex of the group
+     * @param zIndex {number} - The `zIndex` of the group
+     */
+    setZIndex(zIndex: number) {
+        this.zIndex = zIndex;
+        return this;
+    }
+
+    /**
      * Add a component to the group
      * @param components {any[]} - The `components` to add to the group
      */
     add(...components: AnyLayer[]) {
-        this.components.push(...components);
+        let layersArray = components.flat();
+        layersArray = layersArray.filter(l => l !== undefined);
+        layersArray = layersArray.sort((a, b) => a.zIndex - b.zIndex);
+        this.components.push(layersArray);
         return this;
     }
 

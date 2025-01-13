@@ -1,6 +1,5 @@
 import { BaseLayer } from "./BaseLayer";
-import { IImageLayer, IImageLayerProps } from "../../types/components/ImageLayer";
-import { Centring, LayerType, ScaleType } from "../../types/types";
+import { IImageLayer, IImageLayerProps, Centring, LayerType, ScaleType } from "../../types";
 import { Canvas, loadImage, SKRSContext2D } from "@napi-rs/canvas";
 import { centring, drawShadow, filters, isImageUrlValid, opacity, parseToNormal, transform } from "../../utils/utils";
 import { LazyError } from "../../utils/LazyUtil";
@@ -52,10 +51,9 @@ export class ImageLayer extends BaseLayer<IImageLayerProps> {
         drawShadow(ctx, this.props.shadow);
         opacity(ctx, this.props.opacity);
         filters(ctx, this.props.filter);
-        let image = await jimp.read(this.props.src);
-        image.resize(w, h);
-        // @ts-ignore
-        image = await loadImage(this.props.src);
+        let jmp = await jimp.read(this.props.src);
+        jmp.resize(w, h);
+        let image = await loadImage(jmp.bitmap.data);
         if (!image) throw new LazyError('The image could not be loaded');
         if (r) {
             ctx.beginPath();
@@ -66,10 +64,8 @@ export class ImageLayer extends BaseLayer<IImageLayerProps> {
             ctx.arcTo(x, y, x + (w / 2), y, r);
             ctx.closePath();
             ctx.clip();
-            // @ts-ignore
             ctx.drawImage(image, x, y, w, h);
         } else {
-            // @ts-ignore
             ctx.drawImage(image, x, y, w, h);
         }
         ctx.restore();

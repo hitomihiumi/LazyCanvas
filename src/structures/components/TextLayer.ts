@@ -9,9 +9,10 @@ import {
     TextBaseline,
     TextDirection,
     LayerType,
-    Centring
-} from "../../types/types";
-import { ITextLayer, ITextLayerProps } from "../../types/components/TextLayer";
+    Centring,
+    ITextLayer,
+    ITextLayerProps
+} from "../../types";
 import { LazyError } from "../../utils/LazyUtil";
 import { Gradient } from "../helpers/Gradient";
 import {

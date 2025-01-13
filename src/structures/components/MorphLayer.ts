@@ -1,6 +1,5 @@
 import { BaseLayer } from "./BaseLayer";
-import { IMorphLayer, IMorphLayerProps } from "../../types/components/MorphLayer";
-import { Centring, ColorType, LayerType, ScaleType } from "../../types/types";
+import { IMorphLayer, IMorphLayerProps, Centring, ColorType, LayerType, ScaleType } from "../../types";
 import { Canvas, SKRSContext2D } from "@napi-rs/canvas";
 import { drawFill, drawShadow, filters, isColor, opacity, parseColor, parseToNormal, transform, centring } from "../../utils/utils";
 import { LazyError } from "../../utils/LazyUtil";

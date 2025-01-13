@@ -1,5 +1,6 @@
-import { GradientColorStop, GradientPoint, IGradient } from "../../types/helpers/Gradient";
-import { GradientType } from "../../types/types";
+import { GradientColorStop, GradientPoint, IGradient, GradientType } from "../../types";
+import { SKRSContext2D } from "@napi-rs/canvas";
+import { parseHex } from "../../utils/utils";
 
 export class Gradient implements IGradient {
     type: GradientType;
@@ -37,6 +38,29 @@ export class Gradient implements IGradient {
     addStops(...stops: GradientColorStop[]) {
         this.stops.push(...stops);
         return this;
+    }
+
+    draw(ctx: SKRSContext2D) {
+        let gradientData = this.toJSON();
+        let gradient;
+        switch (gradientData.type) {
+            case GradientType.Linear:
+                gradient = ctx.createLinearGradient(gradientData.points[0].x, gradientData.points[0].y, gradientData.points[1].x, gradientData.points[1].y);
+                break;
+            case GradientType.Radial:
+                gradient = ctx.createRadialGradient(gradientData.points[0].x, gradientData.points[0].y, (gradientData.points[0].r || 0), (gradientData.points[1].x || gradientData.points[0].x), (gradientData.points[1].y || gradientData.points[0].y), (gradientData.points[1].r || 0));
+                break;
+            case GradientType.Conic:
+                gradient = ctx.createConicGradient((gradientData.points[0].startAngle || 0), gradientData.points[0].x, gradientData.points[0].y);
+                break;
+            default:
+                gradient = ctx.createLinearGradient(gradientData.points[0].x, gradientData.points[0].y, gradientData.points[1].x, gradientData.points[1].y);
+                break;
+        }
+        for (let stop of gradientData.stops) {
+            gradient.addColorStop(stop.offset, parseHex(stop.color));
+        }
+        return gradient;
     }
 
     /**

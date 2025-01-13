@@ -33,12 +33,14 @@ import {
     TextAlign,
     TextDirection,
     TextBaseline,
-    SaveFormat
+    SaveFormat,
+    Centring,
+    PatternType
 } from "./types/types";
 
 import { saveFile } from "./utils/utils";
 
-import { Filters } from "./structures/helpers/filters";
+import { Filters } from "./helpers/filters";
 
 export {
     LazyCanvas,

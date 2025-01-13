@@ -1,10 +1,8 @@
-import { ILazyCanvas } from "../types/LazyCanvas";
+import { ILazyCanvas, Export, IFonts } from "../types";
 import { Canvas, SKRSContext2D, SvgExportFlag } from "@napi-rs/canvas";
 import { LayersManager } from "./managers/LayersManager";
 import { RenderManager } from "./managers/RenderManager";
 import { FontsManager } from "./managers/FontsManager";
-import { Export } from "../types/types";
-import { IFonts } from "../types/helpers/Font";
 
 export class LazyCanvas implements ILazyCanvas {
     width: number | 0;

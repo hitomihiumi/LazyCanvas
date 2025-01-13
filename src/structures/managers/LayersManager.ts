@@ -1,5 +1,4 @@
-import { ILayersManager } from "../../types/managers/LayersManager";
-import { AnyLayer } from "../../types/types";
+import { ILayersManager, AnyLayer } from "../../types";
 import { Group } from "../components/Group";
 
 export class LayersManager implements ILayersManager {
@@ -13,28 +12,34 @@ export class LayersManager implements ILayersManager {
      * Add a layer to the map
      * @param layers {AnyLayer[] | Group[]} - The `layer` or `group` to add to the map
      */
-    public add(...layers: AnyLayer[] | Group[]): void {
-        for (const layer of layers) {
+    public add(...layers: AnyLayer[] | Group[]) {
+        let layersArray = layers.flat();
+        layersArray = layersArray.filter(l => l !== undefined);
+        for (const layer of layersArray) {
             if (this.map.has(layer.id)) throw new Error("Layer already exists");
             this.map.set(layer.id, layer);
         }
+        this.sort();
+        return this;
     }
 
     /**
      * Remove a layer from the map
      * @param ids {string[]} - The `id` of the layer or group to remove
      */
-    public remove(...ids: string[]): void {
+    public remove(...ids: string[]) {
         for (const id of ids) {
             this.map.delete(id);
         }
+        return this;
     }
 
     /**
      * Clear all layers from the map
      */
-    public clear(): void {
+    public clear() {
         this.map.clear();
+        return this;
     }
 
     /**
@@ -87,6 +92,7 @@ export class LayersManager implements ILayersManager {
      */
     public forEach(callbackfn: (value: AnyLayer | Group, key: string, map: Map<string, AnyLayer | Group>) => void) {
         this.map.forEach(callbackfn);
+        return this;
     }
 
     /**
@@ -100,8 +106,9 @@ export class LayersManager implements ILayersManager {
      * Convert a JSON object to the map
      * @param json {object} - The `json` object to convert
      */
-    public fromJSON(json: object): void {
+    public fromJSON(json: object) {
         this.map = new Map(Object.entries(json));
+        return this;
     }
 
     /**
@@ -115,7 +122,12 @@ export class LayersManager implements ILayersManager {
      * Convert an array to the map
      * @param array {Array<AnyLayer | Group>} - The `array` to convert
      */
-    public fromArray(array: Array<AnyLayer | Group>): void {
+    public fromArray(array: Array<AnyLayer | Group>) {
         this.map = new Map(array.map(l => [l.id, l]));
+        return this;
+    }
+
+    public sort() {
+        this.fromArray(this.toArray().sort((a, b) => a.zIndex - b.zIndex));
     }
 }

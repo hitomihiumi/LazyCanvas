@@ -3,7 +3,8 @@ import { Centring, ColorType, LayerType, ScaleType } from "../types";
 export interface IBaseLayer {
     id: string;
     type: LayerType;
-    renderPosition: number;
+    zIndex: number;
+    visible: boolean;
     props: IBaseLayerProps;
 }
 

@@ -1,6 +1,5 @@
-import { IRenderManager } from "../../types/managers/RenderManager";
+import { IRenderManager, Export } from "../../types";
 import { LazyCanvas } from "../LazyCanvas";
-import { Export } from "../../types/types";
 import { SKRSContext2D } from "@napi-rs/canvas";
 import { Group } from "../components/Group";
 
@@ -13,18 +12,17 @@ export class RenderManager implements IRenderManager {
 
     /**
      * This will render all the layers and return the rendered canvas buffer or ctx.
-     * @returns {Promise<Buffer | SKRSContext2D | undefined>}
+     * @returns {Promise<Buffer | SKRSContext2D>}
      */
-    public async render(): Promise<Buffer | SKRSContext2D | undefined> {
-
+    public async render(): Promise<Buffer | SKRSContext2D> {
         await Promise.all(Array.from(this.lazyCanvas.layers.values()).map(async (layer) => {
+            if (!layer.visible) return;
             if (layer instanceof Group) {
                 await Promise.all(layer.components.map(async (component) => {
                     await component.draw(this.lazyCanvas.ctx, this.lazyCanvas.canvas);
                 }));
             } else {
                 await layer.draw(this.lazyCanvas.ctx, this.lazyCanvas.canvas);
-                //this.lazyCanvas.ctx.shadowColor = 'transparent';
             }
         }));
 

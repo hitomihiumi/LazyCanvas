@@ -1,5 +1,4 @@
-import { IFont } from "../../types/helpers/Font";
-import { FontWeight } from "../../types/types";
+import { IFont, FontWeight } from "../../types";
 
 export class Font implements IFont {
     family: string;

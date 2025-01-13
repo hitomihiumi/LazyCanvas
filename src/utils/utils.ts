@@ -1,10 +1,10 @@
-import {Centring, ColorType, GradientType, LayerType, SaveFormat, ScaleType, TextAlign} from "../types/types";
-import {Gradient} from "../structures/helpers/Gradient";
-import {Canvas, SKRSContext2D} from "@napi-rs/canvas";
-import {IBaseLayerProps, Transform} from "../types/components/BaseLayer";
-import {LazyError} from "./LazyUtil";
+import { Centring, ColorType, LayerType, SaveFormat, ScaleType, TextAlign, IBaseLayerProps, Transform } from "../types";
+import { Gradient } from "../structures/helpers/Gradient";
+import { Canvas, SKRSContext2D } from "@napi-rs/canvas";
+import { LazyError } from "./LazyUtil";
 import * as fs from "fs";
 import * as jimp from "jimp";
+import { Pattern } from "../structures/helpers/Pattern";
 
 export function generateID(type: string) {
     return `${type}-${Math.random().toString(36).substr(2, 9)}`;
@@ -21,14 +21,14 @@ let hslReg = /^hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)$/;
 let hslaReg = /^hsla\((\d+),\s*(\d+)%,\s*(\d+)%,\s*(0|0?\.\d+|1(\.0)?)\)$/;
 
 export function isColor(v: ColorType) {
-    return typeof (v === 'string' && (hexReg.test(v) || rgbReg.test(v) || rgbaReg.test(v) || hslReg.test(v) || hslaReg.test(v))) || v instanceof Gradient;
+    return typeof (v === 'string' && (hexReg.test(v) || rgbReg.test(v) || rgbaReg.test(v) || hslReg.test(v) || hslaReg.test(v))) || v instanceof Gradient || v instanceof Pattern;
 }
 
 function tooShort(v: string) {
     return v.length < 2 ? `0${v}` : v;
 }
 
-function parseHex(v: string) {
+export function parseHex(v: string) {
     if (hexReg.test(v)) {
         return v;
     } else if (rgbReg.test(v)) {
@@ -79,7 +79,7 @@ function parseHex(v: string) {
 export function parseColor(v: ColorType) {
     if (typeof v === 'string') {
         return parseHex(v);
-    } else if (v instanceof Gradient) {
+    } else if (v instanceof Gradient || v instanceof Pattern) {
         return v;
     } else {
         return '#000000';
@@ -128,25 +128,9 @@ export function filters(ctx: SKRSContext2D, filters: string) {
     }
 }
 
-export function parseFillStyle(ctx: SKRSContext2D, color: ColorType) {
-    if (color instanceof Gradient) {
-        let gradientData = color.toJSON();
-        let gradient;
-        switch (gradientData.type) {
-            case GradientType.Linear:
-                gradient = ctx.createLinearGradient(gradientData.points[0].x, gradientData.points[0].y, gradientData.points[1].x, gradientData.points[1].y);
-                break;
-            case GradientType.Radial:
-                gradient = ctx.createRadialGradient(gradientData.points[0].x, gradientData.points[0].y, (gradientData.points[0].r || 0), (gradientData.points[1].x || gradientData.points[0].x), (gradientData.points[1].y || gradientData.points[0].y), (gradientData.points[1].r || 0));
-                break;
-            case GradientType.Conic:
-                gradient = ctx.createConicGradient((gradientData.points[0].startAngle || 0), gradientData.points[0].x, gradientData.points[0].y);
-                break;
-        }
-        for (let stop of gradientData.stops) {
-            gradient.addColorStop(stop.offset, parseHex(stop.color));
-        }
-        return gradient;
+export async function parseFillStyle(ctx: SKRSContext2D, color: ColorType) {
+    if (color instanceof Gradient || color instanceof Pattern) {
+        return color.draw(ctx);
     } else {
         return color;
     }
@@ -209,8 +193,8 @@ export function generateRandomName() {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
 }
 
-export function drawFill(ctx: SKRSContext2D, props: IBaseLayerProps) {
-    let fillStyle = parseFillStyle(ctx, props.fillStyle);
+export async function drawFill(ctx: SKRSContext2D, props: IBaseLayerProps) {
+    let fillStyle = await parseFillStyle(ctx, props.fillStyle);
     if (props.filled) {
         ctx.fillStyle = fillStyle;
         ctx.fill();
