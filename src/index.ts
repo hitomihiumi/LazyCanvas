@@ -22,7 +22,7 @@ import {
     GradientType,
 } from "./types/enum";
 
-import {
+import type {
     AnyLayer,
     ScaleType,
     ColorType,

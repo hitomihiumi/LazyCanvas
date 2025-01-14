@@ -1,4 +1,4 @@
-import {LazyCanvas, TextLayer, saveFile, SaveFormat, Export, TextAlign, FontWeight} from "../src";
+import {LazyCanvas, TextLayer, saveFile, SaveFormat, Export, TextAlign, FontWeight} from "../dist";
 import { SvgExportFlag } from "@napi-rs/canvas";
 
 const canvas = new LazyCanvas()
