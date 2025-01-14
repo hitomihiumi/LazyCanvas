@@ -1,4 +1,4 @@
-import { FontWeight, ImageLayer, LazyCanvas, MorphLayer, saveFile, SaveFormat, TextLayer, Gradient, GradientType, Filters } from "../src";
+import { FontWeight, ImageLayer, LazyCanvas, MorphLayer, saveFile, SaveFormat, TextLayer, Gradient, GradientType, Filters } from "../dist";
 
 const canvas = new LazyCanvas()
     .create(800, 800);

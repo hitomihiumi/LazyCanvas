@@ -1,4 +1,4 @@
-import {Export, FontWeight, Group, LazyCanvas, MorphLayer, saveFile, SaveFormat, TextLayer, Pattern, PatternType, ImageLayer } from '../src';
+import {Export, FontWeight, Group, LazyCanvas, MorphLayer, saveFile, SaveFormat, TextLayer, Pattern, PatternType, ImageLayer } from '../dist';
 import {Image, SvgExportFlag} from "@napi-rs/canvas";
 
 const canvas = new LazyCanvas()
