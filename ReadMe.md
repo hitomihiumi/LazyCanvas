@@ -1,7 +1,7 @@
 ![Logo](./resources/logo.svg)
 
-[![npm version](https://badge.fury.io/js/%40nmmty%2Flazycanvas.svg)](https://www.npmjs.com/package/@nmmty/lazy-canvas)
-[![downloads](https://img.shields.io/npm/dm/%40nmmty%2Flazycanvas.svg)](https://www.npmjs.com/package/@nmmty/lazy-canvas)
+[![npm version](https://badge.fury.io/js/%40nmmty%2Flazycanvas.svg)](https://www.npmjs.com/package/@nmmty/lazycanvas)
+[![downloads](https://img.shields.io/npm/dm/%40nmmty%2Flazycanvas.svg)](https://www.npmjs.com/package/@nmmty/lazycanvas)
 
 A simple way to interact with [`@napi-rs/canvas`](https://github.com/Brooooooklyn/canvas) in an advanced way!
 LazyCanvas provides you with classes and methods to interact with canvas more easily. 
