@@ -1,4 +1,4 @@
-import { GradientType } from "../types";
+import { GradientType } from "../enum";
 
 export interface IGradient {
     type: GradientType;

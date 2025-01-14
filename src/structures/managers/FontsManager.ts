@@ -1,8 +1,7 @@
-import { IFontsManager } from "../../types/managers/FontsManager";
+import { IFontsManager, IFonts } from "../../types";
 import { Font } from "../helpers/Font";
 import { LazyError } from "../../utils/LazyUtil";
-import { Fonts } from "../Fonts";
-import { IFonts } from "../../types/helpers/Font";
+import { Fonts } from "../../helpers/Fonts";
 import { GlobalFonts } from "@napi-rs/canvas";
 
 export class FontsManager implements IFontsManager {
@@ -34,7 +33,7 @@ export class FontsManager implements IFontsManager {
      * Add a font to the map
      * @param fonts {Font[]} - The `font` to add to the map
      */
-    public add(...fonts: Font[]): void {
+    public add(...fonts: Font[]) {
         for (const font of fonts) {
             if (!font.family) throw new LazyError("Family must be provided");
             if (!font.weight) throw new LazyError("Weight must be provided");
@@ -44,23 +43,26 @@ export class FontsManager implements IFontsManager {
             if (font.path) GlobalFonts.registerFromPath(font.path, font.family);
             if (font.base64) GlobalFonts.register(font.base64, font.family);
         }
+        return this;
     }
 
     /**
      * Remove a font from the map
      * @param array {Array<{ family: string, weight: string }>} - The `family` and `weight` of the font to remove
      */
-    public remove(...array: Array<{ family: string, weight: string }> ): void {
+    public remove(...array: Array<{ family: string, weight: string }> ) {
         for (const font of array) {
             this.map.delete(`${font.family}_${font.weight}`);
         }
+        return this;
     }
 
     /**
      * Clear all fonts from the map
      */
-    public clear(): void {
+    public clear() {
         this.map.clear();
+        return this;
     }
 
     /**
@@ -116,8 +118,9 @@ export class FontsManager implements IFontsManager {
      * @param callbackfn {Function} - The function to execute on each font
      * @param thisArg {any} - The `this` context to use
      */
-    public forEach(callbackfn: (value: Font, key: string, map: Map<string, Font>) => void, thisArg?: any): void {
+    public forEach(callbackfn: (value: Font, key: string, map: Map<string, Font>) => void, thisArg?: any) {
         this.map.forEach(callbackfn, thisArg);
+        return this;
     }
 
     /**
@@ -131,8 +134,9 @@ export class FontsManager implements IFontsManager {
      * Convert the map from a JSON object
      * @param json {object} - The JSON object to convert
      */
-    public fromJSON(json: object): void {
+    public fromJSON(json: object) {
         this.map = new Map(Object.entries(json));
+        return this;
     }
 
     /**
@@ -146,9 +150,10 @@ export class FontsManager implements IFontsManager {
      * Convert an array to the map
      * @param array {Font[]} - The `array` to convert
      */
-    public fromArray(array: Font[]): void {
+    public fromArray(array: Font[]) {
         for (const font of array) {
             this.map.set(`${font.family}_${font.weight}`, font);
         }
+        return this;
     }
 }

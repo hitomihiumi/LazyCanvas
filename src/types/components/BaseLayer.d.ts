@@ -1,9 +1,11 @@
-import { Centring, ColorType, LayerType, ScaleType } from "../types";
+import { ColorType, ScaleType } from "../";
+import { Centring, LayerType } from "../enum";
 
 export interface IBaseLayer {
     id: string;
     type: LayerType;
-    renderPosition: number;
+    zIndex: number;
+    visible: boolean;
     props: IBaseLayerProps;
 }
 

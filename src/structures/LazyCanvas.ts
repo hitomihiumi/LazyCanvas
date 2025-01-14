@@ -1,10 +1,9 @@
-import { ILazyCanvas } from "../types/LazyCanvas";
+import { Export } from "../types/enum";
+import { IFonts, ILazyCanvas } from "../types";
 import { Canvas, SKRSContext2D, SvgExportFlag } from "@napi-rs/canvas";
 import { LayersManager } from "./managers/LayersManager";
 import { RenderManager } from "./managers/RenderManager";
 import { FontsManager } from "./managers/FontsManager";
-import { Export } from "../types/types";
-import { IFonts } from "../types/helpers/Font";
 
 export class LazyCanvas implements ILazyCanvas {
     width: number | 0;
@@ -83,7 +82,6 @@ export class LazyCanvas implements ILazyCanvas {
         this.canvas = new Canvas(width, height);
         this.ctx = this.canvas.getContext('2d');
         this.layers = new LayersManager();
-        this.render = new RenderManager(this);
         return this;
     }
 }

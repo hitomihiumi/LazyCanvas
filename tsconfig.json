@@ -9,7 +9,6 @@
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "downlevelIteration": true,
   },
   "include": [
     "src/**/*"

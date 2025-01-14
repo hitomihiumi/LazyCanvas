@@ -1,9 +1,3 @@
-import { Gradient } from "../structures/helpers/Gradient";
-import { MorphLayer } from "../structures/components/MorphLayer";
-import { ImageLayer } from "../structures/components/ImageLayer";
-import { TextLayer } from "../structures/components/TextLayer";
-import { Group } from "../structures/components/Group";
-
 export enum LayerType {
     Base = 'base',
     Arc = 'arc',
@@ -26,17 +20,12 @@ export enum LayerScaleType {
     None = 'none',
 }
 
-export type ScaleType = string | number;
-
-export type ColorType = string | Gradient;
 
 export enum GradientType {
     Linear = 'linear',
     Radial = 'radial',
     Conic = 'conic',
 }
-
-export type AnyLayer = MorphLayer | ImageLayer | TextLayer | Group;
 
 export enum FontWeight {
     Thin = 100,
@@ -100,6 +89,13 @@ export enum SaveFormat {
 }
 
 export enum Centring {
-    LeftUp = 'left-up',
+    Start = 'start',
     Center = 'center',
+}
+
+export enum PatternType {
+    Repeat = 'repeat',
+    RepeatX = 'repeat-x',
+    RepeatY = 'repeat-y',
+    NoRepeat = 'no-repeat'
 }

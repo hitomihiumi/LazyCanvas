@@ -1,4 +1,4 @@
-import { AnyLayer } from "../types";
+import { AnyLayer } from "../";
 import { Group } from "../../structures/components/Group";
 
 export interface ILayersManager {

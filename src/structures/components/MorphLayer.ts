@@ -1,10 +1,21 @@
 import { BaseLayer } from "./BaseLayer";
-import { IMorphLayer, IMorphLayerProps } from "../../types/components/MorphLayer";
-import { Centring, ColorType, LayerType, ScaleType } from "../../types/types";
+import { IMorphLayer, IMorphLayerProps, ColorType, ScaleType } from "../../types";
+import { Centring, LayerType } from "../../types/enum";
 import { Canvas, SKRSContext2D } from "@napi-rs/canvas";
-import { drawFill, drawShadow, filters, isColor, opacity, parseColor, parseToNormal, transform, centring } from "../../utils/utils";
+import {
+    drawShadow,
+    filters,
+    isColor,
+    opacity,
+    parseColor,
+    parseToNormal,
+    transform,
+    centring,
+    parseFillStyle
+} from "../../utils/utils";
 import { LazyError } from "../../utils/LazyUtil";
 import { Gradient } from "../helpers/Gradient";
+import { Pattern } from "../helpers/Pattern";
 
 export class MorphLayer extends BaseLayer<IMorphLayerProps> {
     props: IMorphLayerProps;
@@ -40,7 +51,7 @@ export class MorphLayer extends BaseLayer<IMorphLayerProps> {
         if (!color) throw new LazyError('The color of the layer must be provided');
         if (!isColor(color)) throw new LazyError('The color of the layer must be a valid color');
         let fill = parseColor(color);
-        if (fill instanceof Gradient) {
+        if (fill instanceof Gradient || fill instanceof Pattern) {
             this.props.fillStyle = fill;
         } else {
             let arr = fill.split(':');
@@ -103,7 +114,26 @@ export class MorphLayer extends BaseLayer<IMorphLayerProps> {
         drawShadow(ctx, this.props.shadow);
         opacity(ctx, this.props.opacity);
         filters(ctx, this.props.filter);
-        drawFill(ctx, this.props)
+        let base = parseFillStyle(ctx, this.props.fillStyle);
+        let fillStyle;
+        if (base instanceof Promise) {
+            fillStyle = await base;
+        } else {
+            fillStyle = base;
+        }
+        if (this.props.filled) {
+            ctx.fillStyle = fillStyle;
+            ctx.fill();
+        } else {
+            ctx.strokeStyle = fillStyle;
+            ctx.lineWidth = this.props.stroke?.width || 1;
+            ctx.lineCap = this.props.stroke?.cap || 'butt';
+            ctx.lineJoin = this.props.stroke?.join || 'miter';
+            ctx.miterLimit = this.props.stroke?.miterLimit || 10;
+            ctx.lineDashOffset = this.props.stroke?.dashOffset || 0;
+            ctx.setLineDash(this.props.stroke?.dash || []);
+            ctx.stroke();
+        }
         ctx.restore();
     }
 

@@ -9,7 +9,7 @@ resources/
 *.ts
 !*.d.ts
 docgen.ts
-docgen.js
+docgen.ts
 tsconfig.json
 package-lock.json
 typedoc.json

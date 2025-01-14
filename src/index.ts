@@ -6,39 +6,50 @@ import { TextLayer } from "./structures/components/TextLayer";
 import { BaseLayer } from "./structures/components/BaseLayer";
 import { Group } from "./structures/components/Group";
 
-import { IFont, IFonts } from "./types/helpers/Font";
-import { IGradient } from "./types/helpers/Gradient";
-import { IPattern } from "./types/helpers/Pattern";
-import { IImageLayer, IImageLayerProps } from "./types/components/ImageLayer";
-import { IMorphLayer, IMorphLayerProps } from "./types/components/MorphLayer";
-import { ITextLayer, ITextLayerProps } from "./types/components/TextLayer";
-import { IBaseLayer, IBaseLayerProps } from "./types/components/BaseLayer";
-import { IGroup } from "./types/components/Group";
+import {
+    LayerType,
+    LayerScaleType,
+    LineCap,
+    LineJoin,
+    TextAlign,
+    TextDirection,
+    TextBaseline,
+    FontWeight,
+    Export,
+    Centring,
+    PatternType,
+    SaveFormat,
+    GradientType,
+} from "./types/enum";
+
+import {
+    AnyLayer,
+    ScaleType,
+    ColorType,
+    IFont,
+    IFonts,
+    IGradient,
+    IPattern,
+    IImageLayer,
+    IImageLayerProps,
+    IMorphLayer,
+    IMorphLayerProps,
+    ITextLayer,
+    ITextLayerProps,
+    IBaseLayer,
+    IBaseLayerProps,
+    IGroup,
+} from "./types";
 
 import { Font } from "./structures/helpers/Font";
 import { Gradient } from "./structures/helpers/Gradient";
 import { Pattern } from "./structures/helpers/Pattern";
 
 import {
-    LayerScaleType,
-    LayerType,
-    AnyLayer,
-    ScaleType,
-    FontWeight,
-    ColorType,
-    GradientType,
-    Export,
-    LineCap,
-    LineJoin,
-    TextAlign,
-    TextDirection,
-    TextBaseline,
-    SaveFormat
-} from "./types/types";
+    saveFile
+} from "./utils/utils";
 
-import { saveFile } from "./utils/utils";
-
-import { Filters } from "./structures/helpers/filters";
+import { Filters } from "./helpers/filters";
 
 export {
     LazyCanvas,
@@ -51,11 +62,8 @@ export {
     Gradient,
     Pattern,
     LayerScaleType,
-    AnyLayer,
-    ScaleType,
     LayerType,
     FontWeight,
-    ColorType,
     GradientType,
     Export,
     LineCap,
@@ -64,6 +72,8 @@ export {
     TextDirection,
     TextBaseline,
     SaveFormat,
+    Centring,
+    PatternType,
     saveFile,
     Filters,
     IFont,
@@ -78,5 +88,8 @@ export {
     ITextLayerProps,
     IBaseLayer,
     IBaseLayerProps,
-    IGroup
+    IGroup,
+    AnyLayer,
+    ScaleType,
+    ColorType,
 }

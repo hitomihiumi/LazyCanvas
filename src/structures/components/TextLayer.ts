@@ -1,17 +1,15 @@
 import { BaseLayer } from "./BaseLayer";
 import {
-    ColorType,
     FontWeight,
     LineCap,
     LineJoin,
-    ScaleType,
     TextAlign,
     TextBaseline,
     TextDirection,
     LayerType,
     Centring
-} from "../../types/types";
-import { ITextLayer, ITextLayerProps } from "../../types/components/TextLayer";
+} from "../../types/enum";
+import { ITextLayer, ITextLayerProps, ScaleType, ColorType } from "../../types";
 import { LazyError } from "../../utils/LazyUtil";
 import { Gradient } from "../helpers/Gradient";
 import {
@@ -25,6 +23,7 @@ import {
     transform
 } from "../../utils/utils";
 import { Canvas, SKRSContext2D } from "@napi-rs/canvas";
+import { Pattern } from "../helpers/Pattern";
 
 export class TextLayer extends BaseLayer<ITextLayerProps> {
     props: ITextLayerProps;
@@ -101,7 +100,7 @@ export class TextLayer extends BaseLayer<ITextLayerProps> {
         if (!color) throw new LazyError('The color of the layer must be provided');
         if (!isColor(color)) throw new LazyError('The color of the layer must be a valid color');
         let fill = parseColor(color);
-        if (fill instanceof Gradient) {
+        if (fill instanceof Gradient || fill instanceof Pattern) {
             this.props.fillStyle = fill;
         } else {
             let arr = fill.split(':');
@@ -213,11 +212,11 @@ export class TextLayer extends BaseLayer<ITextLayerProps> {
 
             }
             for (let line of lines) {
-                this.drawText(this.props, ctx, parseFillStyle(ctx, this.props.fillStyle), line.text, line.x, line.y, w, h);
+                this.drawText(this.props, ctx, await parseFillStyle(ctx, this.props.fillStyle), line.text, line.x, line.y, w, h);
             }
         } else {
             ctx.font = `${this.props.font.weight} ${this.props.font.size}px ${this.props.font.family}`;
-            this.drawText(this.props, ctx, parseFillStyle(ctx, this.props.fillStyle), this.props.text, x, y, w, h);
+            this.drawText(this.props, ctx, await parseFillStyle(ctx, this.props.fillStyle), this.props.text, x, y, w, h);
         }
         ctx.closePath();
         ctx.restore();
