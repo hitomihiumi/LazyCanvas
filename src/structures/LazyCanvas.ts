@@ -1,4 +1,5 @@
-import { ILazyCanvas, Export, IFonts } from "../types";
+import { Export } from "../types/enum";
+import { IFonts, ILazyCanvas } from "../types";
 import { Canvas, SKRSContext2D, SvgExportFlag } from "@napi-rs/canvas";
 import { LayersManager } from "./managers/LayersManager";
 import { RenderManager } from "./managers/RenderManager";
@@ -81,7 +82,6 @@ export class LazyCanvas implements ILazyCanvas {
         this.canvas = new Canvas(width, height);
         this.ctx = this.canvas.getContext('2d');
         this.layers = new LayersManager();
-        this.render = new RenderManager(this);
         return this;
     }
 }

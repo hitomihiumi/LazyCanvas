@@ -1,4 +1,5 @@
-import { IRenderManager, Export } from "../../types";
+import { Export } from "../../types/enum";
+import { IRenderManager } from "../../types";
 import { LazyCanvas } from "../LazyCanvas";
 import { SKRSContext2D } from "@napi-rs/canvas";
 import { Group } from "../components/Group";
@@ -15,16 +16,20 @@ export class RenderManager implements IRenderManager {
      * @returns {Promise<Buffer | SKRSContext2D>}
      */
     public async render(): Promise<Buffer | SKRSContext2D> {
-        await Promise.all(Array.from(this.lazyCanvas.layers.values()).map(async (layer) => {
-            if (!layer.visible) return;
-            if (layer instanceof Group) {
-                await Promise.all(layer.components.map(async (component) => {
-                    await component.draw(this.lazyCanvas.ctx, this.lazyCanvas.canvas);
-                }));
-            } else {
-                await layer.draw(this.lazyCanvas.ctx, this.lazyCanvas.canvas);
+        for (const layer of this.lazyCanvas.layers.toArray()) {
+            if (layer.visible) {
+                if (layer instanceof Group) {
+                    for (const subLayer of layer.components) {
+                        if (subLayer.visible) {
+                            await subLayer.draw(this.lazyCanvas.ctx, this.lazyCanvas.canvas);
+                        }
+                    }
+                } else {
+                    await layer.draw(this.lazyCanvas.ctx, this.lazyCanvas.canvas);
+                }
+                this.lazyCanvas.ctx.shadowColor = 'transparent';
             }
-        }));
+        }
 
         switch (this.lazyCanvas.exportType) {
             case Export.Buffer:

@@ -1,4 +1,5 @@
-import { Centring, ColorType, LayerType, ScaleType } from "../types";
+import { ColorType, ScaleType } from "../";
+import { Centring, LayerType } from "../enum";
 
 export interface IBaseLayer {
     id: string;

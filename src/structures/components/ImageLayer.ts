@@ -1,5 +1,6 @@
 import { BaseLayer } from "./BaseLayer";
-import { IImageLayer, IImageLayerProps, Centring, LayerType, ScaleType } from "../../types";
+import { IImageLayer, IImageLayerProps, ScaleType } from "../../types";
+import { Centring, LayerType } from "../../types/enum";
 import { Canvas, loadImage, SKRSContext2D } from "@napi-rs/canvas";
 import { centring, drawShadow, filters, isImageUrlValid, opacity, parseToNormal, transform } from "../../utils/utils";
 import { LazyError } from "../../utils/LazyUtil";
@@ -53,7 +54,7 @@ export class ImageLayer extends BaseLayer<IImageLayerProps> {
         filters(ctx, this.props.filter);
         let jmp = await jimp.read(this.props.src);
         jmp.resize(w, h);
-        let image = await loadImage(jmp.bitmap.data);
+        let image = await loadImage(await jmp.getBufferAsync('image/png'));
         if (!image) throw new LazyError('The image could not be loaded');
         if (r) {
             ctx.beginPath();

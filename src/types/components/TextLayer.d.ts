@@ -1,5 +1,6 @@
-import { ColorType, FontWeight, TextAlign, TextBaseline, TextDirection, ScaleType } from "../types";
+import { ColorType, ScaleType } from "../";
 import { IBaseLayer, IBaseLayerProps } from "./BaseLayer";
+import { FontWeight, TextAlign, TextBaseline, TextDirection } from "../enum";
 
 export interface ITextLayer extends IBaseLayer {
     props: ITextLayerProps;

@@ -1,6 +1,7 @@
-import {IPattern, PatternType} from "../../types";
-import {LazyCanvas} from "../LazyCanvas";
-import {loadImage, SKRSContext2D} from "@napi-rs/canvas";
+import { PatternType } from "../../types/enum";
+import { IPattern } from "../../types";
+import { LazyCanvas } from "../LazyCanvas";
+import { loadImage, SKRSContext2D } from "@napi-rs/canvas";
 import * as jimp from "jimp";
 
 export class Pattern implements IPattern {
@@ -36,8 +37,8 @@ export class Pattern implements IPattern {
             let image = await loadImage(jmp);
             return ctx.createPattern(image, this.type);
         } else {
-            let jmp = await jimp.read(this.src)
-            let image = await loadImage(jmp.bitmap.data);
+            let jmp = await jimp.read(this.src);
+            let image = await loadImage(await jmp.getBufferAsync('image/png'));
             return ctx.createPattern(image, this.type);
         }
     }

@@ -1,4 +1,4 @@
-import { FontWeight } from "../types";
+import { FontWeight } from "../enum";
 
 export interface IFont {
     family: string;

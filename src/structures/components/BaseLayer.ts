@@ -1,7 +1,7 @@
-import { Centring, LayerType, ScaleType, IBaseLayer, IBaseLayerProps, Transform } from "../../types";
+import { ScaleType, IBaseLayer, IBaseLayerProps, Transform } from "../../types";
+import { Centring, LayerType } from "../../types/enum";
 import { generateID, isColor, parseColor } from "../../utils/utils";
 import { LazyError } from "../../utils/LazyUtil";
-import { Gradient } from "../helpers/Gradient";
 
 export class BaseLayer<T extends IBaseLayerProps> {
     id: string;
@@ -62,17 +62,13 @@ export class BaseLayer<T extends IBaseLayerProps> {
     setShadow(color: string, blur?: number, offsetX?: number, offsetY?: number) {
         if (!color) throw new LazyError('The color of the shadow must be provided');
         if (!isColor(color)) throw new LazyError('The color of the shadow must be a valid color');
-        let parse = parseColor(color);
-        if (parse instanceof Gradient) {
-            throw new LazyError('The color of the shadow must be a valid color');
-        } else {
-            this.props.shadow = {
-                color: parse,
-                blur: blur || 0,
-                offsetX: offsetX || 0,
-                offsetY: offsetY || 0,
-            };
-        }
+        let parse = parseColor(color) as string;
+        this.props.shadow = {
+            color: parse,
+            blur: blur || 0,
+            offsetX: offsetX || 0,
+            offsetY: offsetY || 0,
+        };
         return this;
     }
 

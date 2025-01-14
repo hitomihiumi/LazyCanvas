@@ -1,6 +1,4 @@
-export * from "./LazyCanvas";
 export * from "./types";
-export * from "./enum";
 export * from "./components/BaseLayer";
 export * from "./components/TextLayer";
 export * from "./components/ImageLayer";
@@ -12,3 +10,4 @@ export * from "./helpers/Pattern";
 export * from "./managers/LayersManager";
 export * from "./managers/RenderManager";
 export * from "./managers/FontsManager";
+export * from "./LazyCanvas";

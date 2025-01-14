@@ -2,7 +2,8 @@
   "name": "@nnmty/lazycanvas",
   "version": "0.2.0",
   "description": "A simple way to interact with @napi-rs/canvas in an advanced way!",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "test": "tsc ./test/test.ts && node ./test/test.js",
     "logo": "tsc ./test/logo.ts && node ./test/logo.js",

@@ -1,5 +1,5 @@
 import { LazyCanvas } from '../../';
-import { PatternType } from '../types';
+import { PatternType } from '../enum';
 
 export interface IPattern {
     type: PatternType;

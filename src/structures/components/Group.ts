@@ -1,4 +1,5 @@
-import { IGroup, AnyLayer, LayerType } from "../../types";
+import { AnyLayer, IGroup } from "../../types";
+import { LayerType } from "../../types/enum";
 import { generateID } from "../../utils/utils";
 
 export class Group implements IGroup {
@@ -49,7 +50,7 @@ export class Group implements IGroup {
         let layersArray = components.flat();
         layersArray = layersArray.filter(l => l !== undefined);
         layersArray = layersArray.sort((a, b) => a.zIndex - b.zIndex);
-        this.components.push(layersArray);
+        this.components.push(...layersArray);
         return this;
     }
 

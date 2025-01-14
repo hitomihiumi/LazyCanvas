@@ -1,4 +1,5 @@
-import { GradientColorStop, GradientPoint, IGradient, GradientType } from "../../types";
+import { GradientType } from "../../types/enum";
+import { IGradient, GradientPoint, GradientColorStop } from "../../types";
 import { SKRSContext2D } from "@napi-rs/canvas";
 import { parseHex } from "../../utils/utils";
 

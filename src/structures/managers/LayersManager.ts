@@ -1,4 +1,5 @@
-import { ILayersManager, AnyLayer } from "../../types";
+import { AnyLayer } from "../../types";
+import { ILayersManager } from "../../types";
 import { Group } from "../components/Group";
 
 export class LayersManager implements ILayersManager {

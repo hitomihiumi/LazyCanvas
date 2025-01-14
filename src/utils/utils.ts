@@ -1,4 +1,5 @@
-import { Centring, ColorType, LayerType, SaveFormat, ScaleType, TextAlign, IBaseLayerProps, Transform } from "../types";
+import { Centring, LayerType, SaveFormat, TextAlign } from "../types/enum";
+import { IBaseLayerProps, Transform, ScaleType, ColorType } from "../types";
 import { Gradient } from "../structures/helpers/Gradient";
 import { Canvas, SKRSContext2D } from "@napi-rs/canvas";
 import { LazyError } from "./LazyUtil";
@@ -128,7 +129,7 @@ export function filters(ctx: SKRSContext2D, filters: string) {
     }
 }
 
-export async function parseFillStyle(ctx: SKRSContext2D, color: ColorType) {
+export function parseFillStyle(ctx: SKRSContext2D, color: ColorType) {
     if (color instanceof Gradient || color instanceof Pattern) {
         return color.draw(ctx);
     } else {
@@ -191,23 +192,6 @@ export async function saveFile(buffer: any, extension: SaveFormat, name: string)
 
 export function generateRandomName() {
     return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-}
-
-export async function drawFill(ctx: SKRSContext2D, props: IBaseLayerProps) {
-    let fillStyle = await parseFillStyle(ctx, props.fillStyle);
-    if (props.filled) {
-        ctx.fillStyle = fillStyle;
-        ctx.fill();
-    } else {
-        ctx.strokeStyle = fillStyle;
-        ctx.lineWidth = props.stroke?.width || 1;
-        ctx.lineCap = props.stroke?.cap || 'butt';
-        ctx.lineJoin = props.stroke?.join || 'miter';
-        ctx.miterLimit = props.stroke?.miterLimit || 10;
-        ctx.lineDashOffset = props.stroke?.dashOffset || 0;
-        ctx.setLineDash(props.stroke?.dash || []);
-        ctx.stroke();
-    }
 }
 
 export function isImageUrlValid(src: string) {

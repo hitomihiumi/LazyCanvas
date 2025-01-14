@@ -1,4 +1,5 @@
-import { IFont, FontWeight } from "../../types";
+import { FontWeight } from "../../types/enum";
+import { IFont } from "../../types";
 
 export class Font implements IFont {
     family: string;
